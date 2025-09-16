@@ -8,9 +8,9 @@ import authRoutes from './routes/auth.routes.js';
 
 dotenv.config();
 
-const PORT = process.env.PORT || 3000;
 
 const __dirname = path.resolve();
+
 
 
 
@@ -20,14 +20,17 @@ app.use(express.json());
 
 
 app.use("/api/notes", notesRoutes);
-app.use("/api/notes", notesRoutes);
+
+
+const PORT = process.env.PORT || 3000;
 
 // make it ready from deployment
-if(process.env.NODE_ENV === 'produciton'){
+if(process.env.NODE_ENV === 'production'){
     app.use(express.static(path.join(__dirname,"../frontend/dist")));
-    app.get("*", (_,res)=>{
-        res.sendFile(path.join(__dirname,"../frontend" , "dist","index.html"));
+    app.get(/.*/, (_,res)=>{
+        res.sendFile(path.join(__dirname,'../frontend' , "dist" , "index.html"));
     });
+
 }
 
 connectDB().then(() => {
