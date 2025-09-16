@@ -5,6 +5,7 @@ import connectDB from './config/db.js';
 import dotenv from "dotenv";
 import rateLimiter from './middleware/rateLimiter.js';
 import path from "path"
+import authRoutes from './routes/auth.routes.js';
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(rateLimiter);
 
 
+app.use("/api/notes", notesRoutes);
 app.use("/api/notes", notesRoutes);
 
 // make it ready from deployment
