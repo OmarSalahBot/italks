@@ -1,8 +1,9 @@
 import User from '../models/user.model.js';
 import { generateToken } from "../config/jwt.js";
 import bcrypt from "bcryptjs";
+import cloudinary from '../config/cloudinary.js';
 
-export  const signUp = async (req , res ) => {
+export const signup = async ( req , res ) => {
     try{
         const {username , email , password } = req.body;
         // Make sure all the field are full 
@@ -21,7 +22,7 @@ export  const signUp = async (req , res ) => {
             return res.status(400).json({errType:"email", message: "Enter a vaild email please "})
         }
         
-        const newUserEmail = await User.findOne({email: email});
+        const newUserEmail = await User.findOne({email: email.toLowerCase()});
         const newUserName = await User.findOne({username: username.toLowerCase()});
 
         // Make sure that email is unique
@@ -35,11 +36,14 @@ export  const signUp = async (req , res ) => {
         const hashPassword = await bcrypt.hash(password,salt);
 
         // creating the new user
-        const newUser = await User({ username : username , email:email , password: hashPassword});
+        const newUser = await User({ username : username , email: email.toLowerCase() , password: hashPassword});
         if(newUser){
-            generateToken(newUser._id , res);
             await newUser.save();
-            res.status(201).json({message: "User Created Successfully" , newUser})
+            generateToken(newUser._id , res);
+            res.status(201).json({message: "User Created Successfully" , User: {
+            name : newUser.username,
+            email : newUser.email
+        }})
         }else {
             res.status(400).json({message:"Invalid user data"})
         }
@@ -50,3 +54,62 @@ export  const signUp = async (req , res ) => {
         console.log(err);
     }
 } 
+
+
+export const login = async ( req , res ) => {
+    try{
+        const { email , password } = req.body;
+
+        // checking if the fields is empty
+        if(!email || !password){
+            return res.status(400).json({message : "All fields are required"})
+        }
+
+        const user  = await User.findOne({email:email});
+        // checking if the email exists 
+        if(!user) return res.status(400).json({message:"Invalid information"});
+
+        // checking if the password is correct 
+        const isPasswordCorrect = await bcrypt.compare(password , user.password);
+        if(!isPasswordCorrect) return res.status(400).json({message:"Invalid information"});
+
+        generateToken(user._id,res);
+
+        res.status(200).json({message: "Login successfully" , User: {
+            name : user.username,
+            email : user.email
+        } });
+
+    }catch(err){
+        res.status(500).json({message: 'Server Error',err});
+        console.log(err);
+    }
+}
+
+
+export const logout = (_,res) => {
+    res.cookie("jwt","",{maxAge:0});
+    res.status(200).json({message : "Logout successfully"})
+}
+
+
+export const updateProfile = async ( req , res ) => {
+    try{
+        const { profilePic } = req.body;
+    // checking if the user entered the pfp
+    if(!prefilePic) return res.status(400).json({message:"Profile picture is required"});
+
+    // getting the sender user id 
+    const userId = req.user._id;
+
+    // uploading the image 
+    const uploadResponse = await cloudinary.uploader.upload(prefilePic);
+
+    const updatedUser = await User.findByIdAndUpdate(userId , {profilePic: uploadResponse.secure_url} , {new:true});
+
+    res.status(200).json({message : "User Update Successfully ",updatedUser});
+    }catch(err){
+        res.status(500).json({message: 'Server Error',err});
+        console.log(err);
+    }
+}
