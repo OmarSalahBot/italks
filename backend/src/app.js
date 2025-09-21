@@ -1,12 +1,12 @@
 import express from 'express';
 const app = express();
 import notesRoutes from './routes/notesRoutes.js';
+import cookieParser from 'cookie-parser';
 import connectDB from './config/db.js';
-import dotenv from "dotenv";
+import "dotenv/config";
 import path from "path"
 import authRoutes from './routes/auth.routes.js';
 
-dotenv.config();
 
 
 const __dirname = path.resolve();
@@ -16,6 +16,7 @@ const __dirname = path.resolve();
 
 // middleware
 app.use(express.json());
+app.use(cookieParser());
 
 
 
