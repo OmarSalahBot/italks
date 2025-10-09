@@ -1,33 +1,31 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { MessageCircle, UserRound, Mail, Lock, Eye, EyeOff } from "lucide-react";
-import { useAuthStore } from '../../Store/useAuthStore';
 import { Link } from 'react-router-dom';
+import { useAuthStore } from '../../Store/useAuthStore';
 import { Helmet } from "react-helmet-async";
 import MetaTags from '../../components/MetaTags';
 
-
-const SignUp = () => {
-    const { signup , errorMessage } = useAuthStore();
+const Login = () => {
+    const { login , errorMessage } = useAuthStore();
     const [dataForm, setDataForm] = useState({
-        username: "",
         email: "",
         password: ""
     });
+
     const [showPassword, setShowPassword] = useState(false);
     const [focusedField, setFocusedField] = useState(null);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        signup(dataForm);
+        login(dataForm);
     };
-
     return (
             <div className="relative w-full max-w-md">
                 {/* Helmet for SEO */}
                 <MetaTags
-                title="Sign Up | iTalks"
-                description="Join iTalks today — create your account, meet new people, and start meaningful conversations instantly."
-                keywords="iTalks, signup, register, chat app, messaging, social network, create account"
+                title="Login | iTalks"
+                description="Login to your iTalks account to chat, connect, and share your thoughts instantly with friends and communities."
+                keywords="iTalks, login, chat app, messaging, social network, connect, sign in"
                 />
                 {/* Logo Section */}
                 <div className="text-center mb-8">
@@ -44,33 +42,12 @@ const SignUp = () => {
                 <div className="bg-slate-900/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-800 p-8">
                     {/* Header */}
                     <div className="mb-8 text-center">
-                        <h2 className="text-2xl font-bold text-white mb-2">Create Account</h2>
-                        <p className="text-slate-400 text-sm">Sign up for new account</p>
+                        <h2 className="text-2xl font-bold text-white mb-2">Welcome back</h2>
+                        <p className="text-slate-400 text-sm">Login to access your account</p>
                     </div>
                     { errorMessage ? <p className='text-red-500 text-sm text-center'> {errorMessage} </p> : null}
                     {/* Form */}
                     <div className="space-y-5">
-                        {/* Username Field */}
-                        <div>
-                            <label className="block text-sm font-medium text-slate-300 mb-2">
-                                Username
-                            </label>
-                            <div className="relative">
-                                <UserRound className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors duration-200 ${
-                                    focusedField === 'username' ? 'text-indigo-400' : 'text-slate-500'
-                                }`} />
-                                <input
-                                    type="text"
-                                    placeholder="Alex Steve"
-                                    value={dataForm.username}
-                                    onChange={(e) => setDataForm({ ...dataForm, username: e.target.value })}
-                                    onFocus={() => setFocusedField('username')}
-                                    onBlur={() => setFocusedField(null)}
-                                    className="w-full bg-slate-800 text-white pl-11 pr-4 py-3 rounded-xl border border-slate-700 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all duration-200 placeholder:text-slate-500"
-                                />
-                            </div>
-                        </div>
-
                         {/* Email Field */}
                         <div>
                             <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -130,18 +107,18 @@ const SignUp = () => {
                             onClick={handleSubmit}
                             className="w-full bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
                         >
-                            Create Account
+                            Login
                         </button>
 
                         {/* Login Link */}
-                        <Link to={'/login'} className="text-center pt-2 block">
+                        <Link to={'/signup'} className=" block text-center pt-2">
                             <button
                                 type="button"
                                 className="text-slate-400 hover:text-indigo-400 text-sm transition-colors inline-flex items-center gap-2 group"
                             >
-                                Already have an account?
+                                Create a new account?
                                 <span className="text-indigo-400 group-hover:text-indigo-300 font-medium">
-                                    Login
+                                    SignUp
                                 </span>
                             </button>
                         </Link>
@@ -180,4 +157,4 @@ const SignUp = () => {
     );
 }
 
-export default SignUp;
+export default Login;

@@ -9,7 +9,7 @@ export const arcjetProtection = async(req, res, next) => {
         if(decision.isDenied()){
             if(decision.reason.isRateLimit())  return res.status(429).json({ message : "Too many requests , Rate limiting executed"})
             
-            if(decision.resson.isBot()) return res.status(403).json({ message: "Boting is not allowed "});
+            if(decision.reason.isBot()) return res.status(403).json({ message: "Boting is not allowed "});
 
             return res.status(403).json({ message: "Access denied by security policy "});
         }

@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+
+
+* {
+box-sizing: border-box;
+text-decoration: none !important;
+font-family: "Roboto", sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155; 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.input-lable {
+    @apply block text-lg text-slate-300 mb-2 font-bold;
+}
+
+.auth-input-icon {
+    @apply peer-focus:text-indigo-500 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 size-5 peer-focus:text-indigo-500 transition-colors duration-300 ;
+}
+
+.input {
+    @apply w-full bg-slate-800/50 border text-lg border-slate-700 rounded-lg 
+    py-3 pl-10 pr-4 text-slate-200 placeholder-slate-400 focus:ring-2 
+    focus:ring-indigo-500 focus:border-transparent outline-none focus:placeholder:text-transparent 
+    placeholder:duration-300 transition-all ;
+}
+
+
