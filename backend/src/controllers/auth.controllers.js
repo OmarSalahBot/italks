@@ -36,7 +36,7 @@ export const signup = async ( req , res ) => {
         const hashPassword = await bcrypt.hash(password,salt);
 
         // creating the new user
-        const newUser = await User({ username : username , email: email.toLowerCase() , password: hashPassword});
+        const newUser = new User({ username : username , email: email.toLowerCase() , password: hashPassword});
         if(newUser){
             await newUser.save();
             generateToken(newUser._id , res);
@@ -75,10 +75,12 @@ export const login = async ( req , res ) => {
 
         generateToken(user._id,res);
 
-        res.status(200).json({message: "Login successfully" , User: {
-            name : user.username,
-            email : user.email
-        } });
+        res.status(200).json({
+            _id: user._id,
+            username: user.username,
+            email: user.email,
+            profilePic: user.profilePic,
+        });
 
     }catch(err){
         res.status(500).json({message: 'Server Error',err});
@@ -97,15 +99,15 @@ export const updateProfile = async ( req , res ) => {
     try{
         const { profilePic } = req.body;
     // checking if the user entered the pfp
-    if(!prefilePic) return res.status(400).json({message:"Profile picture is required"});
+    if(!profilePic) return res.status(400).json({message:"Profile picture is required"});
 
     // getting the sender user id 
     const userId = req.user._id;
 
     // uploading the image 
-    const uploadResponse = await cloudinary.uploader.upload(prefilePic);
+    const uploadResponse = await cloudinary.uploader.upload(profilePic);
 
-    const updatedUser = await User.findByIdAndUpdate(userId , {profilePic: uploadResponse.secure_url} , {new:true});
+    const updatedUser = await User.findByIdAndUpdate(userId , {profilePic: uploadResponse.secure_url} , {new:true}).select("-password").select('-createdAt').select('-updatedAt');
 
     res.status(200).json({message : "User Update Successfully ",updatedUser});
     }catch(err){
