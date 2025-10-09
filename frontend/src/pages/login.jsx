@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { MessageCircle, UserRound, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../../Store/useAuthStore';
-import { Helmet } from "react-helmet-async";
+
 import MetaTags from '../../components/MetaTags';
 
 const Login = () => {

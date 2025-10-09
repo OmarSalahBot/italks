@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { MessageCircle, Send, Search,  Users, User } from 'lucide-react';
 import { useAuthStore } from '../../Store/useAuthStore';
 import { useChatStore } from '../../Store/useChatStore';
-import { Helmet } from "react-helmet-async";
+
 import MetaTags from '../../components/MetaTags';
 import Chats from '../../components/chat components/Chats';
 import EmptyMessagesState from '../../components/chat components/EmptyMessagesState ';
