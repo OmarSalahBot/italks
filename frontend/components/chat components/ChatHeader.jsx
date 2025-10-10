@@ -10,7 +10,7 @@ const ChatHeader = () => {
           <div className="flex items-center space-x-3">
             <div className="relative">
               {selectedChat?.profilePic ? (
-                <img src={selectedChat?.profilePic} alt="profile" />
+                <img src={selectedChat?.profilePic} alt="profile" className='w-11 h-11 rounded-full' />
               ) : (
                 <div className="w-11 h-11 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-2xl shadow-lg">
                 👨‍💼

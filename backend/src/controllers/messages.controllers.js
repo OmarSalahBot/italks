@@ -74,18 +74,39 @@ export const getChatPartners = async ( req , res ) => {
     try{
 
         const loggedUserId = req.user._id;
-
+        const lastMessageMap = [];
         const allMessages = await Message.find({
             $or:[
                 { senderId: loggedUserId },
                 { receiverId : loggedUserId }
             ]
         });
+
         const ChatPartner = allMessages.map(msg => msg.senderId.equals(loggedUserId) ? msg.receiverId : msg.senderId );
         
         const uniqueChatPartners = await User.find({ _id: { $in: ChatPartner } }).select("-password");
 
-        res.status(200).json(uniqueChatPartners);
+        //geting the last msg in every chat 
+        const ChatPartners = await Promise.all(
+            uniqueChatPartners.map(async (user) => {
+                const lastMsg = await Message.findOne({
+                $or: [
+                    { senderId: loggedUserId, receiverId: user._id },
+                    { senderId: user._id, receiverId: loggedUserId },
+                ],
+                }).sort({ createdAt: -1 });
+
+                return{
+                    _id:user._id,
+                    username:user.username,
+                    email: user.email,
+                    profilePic: user.profilePic,
+                    lastmsg : lastMsg ? lastMsg.text : "image",
+                    lastMsgTime: lastMsg.createdAt
+                };
+            })
+            );
+        res.status(200).json(ChatPartners);
     }catch(err){
         res.status(500).json({ message :"Server Error"});
         console.log("Server Error",err);

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { MessageCircle, Send, Search,  Users, User } from 'lucide-react';
-import { useAuthStore } from '../../Store/useAuthStore';
 import { useChatStore } from '../../Store/useChatStore';
 
 import MetaTags from '../../components/MetaTags';
@@ -11,39 +10,26 @@ import EmptyMessagesState from '../../components/chat components/EmptyMessagesSt
 import Profile from '../../components/chat components/Profile';
 
 import OpenedChatContainer from '../../components/chat components/OpenedChatContainer';
+import Contacts from '../../components/chat components/Contacts';
 
 
 export default function ChatApp() {
-  const [message, setMessage] = useState('');
   const [showProfile, setShowProfile] = useState(false);
-  const [active, setActive] = useState("chats");
-  const { selectedChat } = useChatStore();
+  const { selectedChat , activeTap , setActiveTap } = useChatStore();
 
 
-  const chats = [
-    { id: 1, name: 'Ahmed Hassan', avatar: '👨‍💼', lastMsg: 'Sure, see you tomorrow!', time: '10:30 AM', unread: 0, online: true },
-    { id: 2, name: 'Sara Mohamed', avatar: '👩‍💻', lastMsg: 'Thanks for the help 😊', time: '9:15 AM', unread: 3, online: true },
-    { id: 3, name: 'Team Discussion', avatar: '👥', lastMsg: 'John: Great idea!', time: 'Yesterday', unread: 0, online: false, isGroup: true },
-    { id: 4, name: 'Omar Ali', avatar: '👨‍🎓', lastMsg: 'Did you check the files?', time: 'Yesterday', unread: 0, online: false },
-    { id: 5, name: 'Layla Ibrahim', avatar: '👩‍🏫', lastMsg: 'The meeting was productive', time: 'Tuesday', unread: 0, online: true },
-  ];
 
   const icons = [
-    { id: "chats", icon: <MessageCircle className='w-6 h-6' />, label: "Chats" },
-    { id: "people", icon: <Users className='w-6 h-6' />, label: "People" },
+    { id: "Chats", icon: <MessageCircle className='w-6 h-6' />, label: "Chats" },
+    { id: "Contacts", icon: <Users className='w-6 h-6' />, label: "Contacts" },
   ];
 
   
 
-  const handleSend = () => {
-    if (message.trim()) {
-      setMessage('');
-    }
-  };
 
   return (
     <div className="h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex">
-      {/* Helmet for SEO */}
+      {/* MetaTags for SEO */}
       <MetaTags
         title="Chats | iTalks"
         description="Chat instantly with friends, join group conversations, and share ideas in real time — all on iTalks."
@@ -65,9 +51,9 @@ export default function ChatApp() {
           {icons.map((item) => (
             <button
               key={item.id}
-              onClick={() => setActive(item.id)}
+              onClick={() => setActiveTap(item.label)}
               className={`p-3 rounded-xl transition-all duration-200 ${
-                active === item.id 
+                activeTap === item.id 
                   ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/30" 
                   : "text-slate-400 hover:bg-slate-800/80 hover:text-white"
               }`}
@@ -96,13 +82,13 @@ export default function ChatApp() {
             <Search className="absolute left-3 top-3 w-5 h-5 text-slate-400" />
             <input 
               type="text" 
-              placeholder="Search messages..."
+              placeholder="Adding friends (coming soon)"
               className="w-full bg-slate-800/80 text-white pl-10 pr-4 py-2.5 rounded-xl border border-slate-700 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
             />
           </div>
         </div>
 
-          <Chats/>
+          {activeTap === 'Chats' ? <Chats/> : <Contacts/>}
       </div>
 
       {/* Chat Area */}
