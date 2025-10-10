@@ -1,5 +1,5 @@
-import{ use, useState ,useRef } from 'react';
-import { Paperclip, Smile, Send , X } from 'lucide-react';
+import{ useState ,useRef } from 'react';
+import { Paperclip, Send , X } from 'lucide-react';
 import { motion , AnimatePresence } from 'framer-motion';
 import { useChatStore } from '../../Store/useChatStore';
 
@@ -67,9 +67,6 @@ const MessageInput = () => {
                 placeholder="Type a message..."
                 className="w-full bg-slate-800/80 text-white px-4 py-3 pr-12 rounded-xl border border-slate-700 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
               />
-              <button className="absolute right-3 top-3 text-slate-400 hover:text-white transition-colors">
-                <Smile className="w-5 h-5" />
-              </button>
             </div>
 
             <button 

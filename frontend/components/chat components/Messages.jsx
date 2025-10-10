@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import MessagesLoading from './MessagesLoading';
 import { useChatStore } from '../../Store/useChatStore';
 import { useAuthStore } from '../../Store/useAuthStore';
+import { motion , AnimatePresence } from 'framer-motion';
 
 const Messages = () => {
     const { isMessagesLoading , getMessagesByUserId , messages , selectedChat } = useChatStore();
@@ -49,7 +50,7 @@ const Messages = () => {
               </div>
             </div>
           ))}
-          <div className="" ref={scrollToRef}></div>
+          <div ref={scrollToRef}/>
         </div>
     );
 }

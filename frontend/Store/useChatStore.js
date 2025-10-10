@@ -7,7 +7,7 @@ export const useChatStore = create(( set , get )=> ({
     chats: [],
     messages: [],
     contacts: [],
-    activeTap: "chats",
+    activeTap: "Chats",
     selectedChat: null,
     isChatsLoading: true,
     isMessagesLoading: true,
@@ -17,15 +17,19 @@ export const useChatStore = create(( set , get )=> ({
     setActiveTap: (tap) => set({ activeTap:tap }),
 
     getAllContacts: async() => {
+        set({ isChatsLoading : true })
         try{
             const res = await axiosInstance.get('/messages/contacts');
             set({ contacts : res.data });
         }catch(err){
             console.log(err); 
+        }finally{
+        set({ isChatsLoading : false })
         }
     },
 
     getAllChats: async() => {
+        set({ isChatsLoading : true })
         try{
             const res = await axiosInstance.get('/messages/chats');
             set({ chats : res.data });
@@ -64,7 +68,6 @@ export const useChatStore = create(( set , get )=> ({
         set({ messages: [...messages , optimisticMessage]});
         try{
             const res = await axiosInstance.post(`/messages/${selectedChat._id}`, data );
-            console.log(res.data);
             set({ messages: messages.concat(res.data)  })
         }catch(err){
             console.log(err);

@@ -1,18 +1,17 @@
-import React from 'react';
 import { useEffect} from 'react';
 import ChatsLoading from './ChatsLoading';
 import { useChatStore } from '../../Store/useChatStore';
 
-const Chats = () => {
-      const { isChatsLoading , selectedChat , setSelectedChat , getAllChats , chats } = useChatStore();
+const Contacts = () => {
+    const { isChatsLoading , selectedChat , setSelectedChat , getAllContacts , contacts } = useChatStore();
       useEffect(()=>{
-          getAllChats();
+          getAllContacts();
         },[]);
 
       if(isChatsLoading) return <ChatsLoading/>;
     return (
         <div className="overflow-y-auto h-[calc(100vh-140px)]">
-          {chats.map((chat) => (
+          {contacts.map((chat) => (
             <div
               key={chat._id}
               onClick={() => setSelectedChat(chat)}
@@ -37,17 +36,9 @@ const Chats = () => {
               <div className="flex-1 min-w-0">
                 <div className="flex justify-between items-start mb-1">
                   <h3 className="font-semibold text-white truncate">{chat.username}</h3>
-                  <span className="text-xs text-slate-400">{new Date(chat.lastMsgTime)
-                    .toLocaleTimeString(undefined, {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                      hour12: true,
-                    })
-                    .replace("am", "AM")
-                    .replace("pm", "PM")}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <p className="text-sm text-slate-400 truncate"> { chat.lastmsg.length < 30 ? chat.lastmsg : chat.lastmsg.substring(0, 30)+"..." } </p>
+                  <p className="text-sm text-slate-400 truncate"> Say hi To { chat.username } </p>
                 </div>
               </div>
             </div>
@@ -56,4 +47,4 @@ const Chats = () => {
     );
 }
 
-export default Chats;
+export default Contacts;
