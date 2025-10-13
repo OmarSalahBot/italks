@@ -1,6 +1,4 @@
 import express from 'express';
-const app = express();
-import notesRoutes from './routes/notesRoutes.js';
 import cookieParser from 'cookie-parser';
 import connectDB from './config/db.js';
 import "dotenv/config";
@@ -8,12 +6,10 @@ import path from "path"
 import authRoutes from './routes/auth.routes.js';
 import messagesRoutes from './routes/message.routes.js';
 import cors from 'cors';
-
+import {app ,server } from "./config/socket.js"
 
 
 const __dirname = path.resolve();
-
-
 
 
 // middleware
@@ -41,10 +37,9 @@ if(process.env.NODE_ENV === 'production'){
 
 }
 
-connectDB().then(() => {
-app.listen(PORT, () =>{
-    console.log(`Server is running on http://localhost:${PORT}`);
-} )
+server.listen(PORT, () => {
+  console.log("Server running on port: " + PORT);
+  connectDB();
 });
 
 

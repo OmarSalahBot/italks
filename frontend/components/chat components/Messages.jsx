@@ -5,18 +5,23 @@ import { useAuthStore } from '../../Store/useAuthStore';
 import { motion , AnimatePresence } from 'framer-motion';
 
 const Messages = () => {
-    const { isMessagesLoading , getMessagesByUserId , messages , selectedChat } = useChatStore();
+    const { isMessagesLoading , getMessagesByUserId , messages , selectedChat ,subscribeToMessages , unsubscribeFromMessages } = useChatStore();
     const { user } = useAuthStore();
     const scrollToRef = useRef(null);
 
-    useEffect(()=>{
-      getMessagesByUserId(selectedChat._id);
-    },[selectedChat]);
 
     useEffect(() => {
       if (scrollToRef.current) 
         scrollToRef.current.scrollIntoView({ behavior: 'smooth' });
       }, [messages]);
+
+      useEffect(() => {
+      getMessagesByUserId(selectedChat._id);
+      subscribeToMessages();
+
+      // clean up
+      return () => unsubscribeFromMessages();
+    }, [selectedChat, getMessagesByUserId, subscribeToMessages, unsubscribeFromMessages]);
 
     if(isMessagesLoading) return <MessagesLoading />;
     return (
