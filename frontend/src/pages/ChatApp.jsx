@@ -35,11 +35,7 @@ export default function ChatApp() {
         description="Chat instantly with friends, join group conversations, and share ideas in real time — all on iTalks."
         keywords="iTalks, chat, messages, group chat, conversations, real time, social app"
       />
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-indigo-600/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
-      </div>
+      
 
       {/* Sidebar */}
       <div className="relative z-10 w-20 bg-slate-950/50 backdrop-blur-xl flex flex-col items-center py-6 space-y-8 border-r border-slate-800/50">
