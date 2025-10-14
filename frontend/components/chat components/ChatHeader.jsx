@@ -7,7 +7,6 @@ const ChatHeader = () => {
     const { selectedChat } = useChatStore();
     const { onlineUsers } = useAuthStore();
 
-    console.log(onlineUsers);
 
     return (
         <div className="bg-slate-900/80 backdrop-blur-xl border-b border-slate-800/50 p-4 flex items-center justify-between">
