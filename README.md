@@ -31,7 +31,7 @@ It allows users to chat instantly, share messages, and connect with friends in a
 
 ## 🖥️ Demo
 
-🔗 **Live Demo:** [https://italks.vercel.app](#)
+🔗 **Live Demo:** https://italks-0dwxd.sevalla.app/
 
 🖼️ **Preview:**
 Sign Up
