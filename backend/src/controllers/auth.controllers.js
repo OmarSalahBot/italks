@@ -39,11 +39,13 @@ export const signup = async ( req , res ) => {
         const newUser = new User({ username : username , email: email.toLowerCase() , password: hashPassword});
         if(newUser){
             await newUser.save();
-            generateToken(newUser._id , res);
-            res.status(201).json({message: "User Created Successfully" , User: {
+            const token = generateToken(newUser._id , res);
+            res.status(201).json({
+            _id: newUser._id,
             name : newUser.username,
-            email : newUser.email
-        }})
+            email : newUser.email,
+            token: token
+        })
         }else {
             res.status(400).json({message:"Invalid user data"})
         }
@@ -73,13 +75,14 @@ export const login = async ( req , res ) => {
         const isPasswordCorrect = await bcrypt.compare(password , user.password);
         if(!isPasswordCorrect) return res.status(400).json({message:"Invalid information"});
 
-        generateToken(user._id,res);
+        const token = generateToken(user._id,res);
 
         res.status(200).json({
             _id: user._id,
             username: user.username,
             email: user.email,
             profilePic: user.profilePic,
+            token:token
         });
 
     }catch(err){
