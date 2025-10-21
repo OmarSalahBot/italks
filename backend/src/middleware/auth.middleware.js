@@ -4,10 +4,11 @@ import "dotenv/config";
 
 export const protectRoute = async (req ,res , next) => {
     try{
-        const token = req.cookies.jwt;
+        let token = req.cookies.jwt;
+        let Mobiletoken = req.headers.authorization?.split(" ")[1];
     // checking if the token is exists
-    if(!token) return res.status(401).json({ message:"Unauthorized - No token"});
-
+    if(!token && !Mobiletoken) return res.status(401).json({ message:"Unauthorized - No token"});
+    if( !token && Mobiletoken) token = Mobiletoken;
     // checking if the token is right
     const decode = jwt.verify(token,process.env.JWT_SECRET);
     if(!decode) return res.status(401).json({ message:"Unauthorized - Invalid token"});
