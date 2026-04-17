@@ -36,7 +36,7 @@ export const signup = async ( req , res ) => {
         const hashPassword = await bcrypt.hash(password,salt);
 
         // creating the new user
-        const newUser = new User({ username : username , email: email.toLowerCase() , password: hashPassword});
+        const newUser = new User({ username : username.toLowerCase() , email: email.toLowerCase() , password: hashPassword});
         if(newUser){
             await newUser.save();
             const token = generateToken(newUser._id , res);

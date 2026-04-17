@@ -8,7 +8,7 @@ export const protectRoute = async (req ,res , next) => {
         let Mobiletoken = req.headers.authorization?.split(" ")[1];
     // checking if the token is exists
     if(!token && !Mobiletoken) return res.status(401).json({ message:"Unauthorized - No token"});
-    if( !token && Mobiletoken) token = Mobiletoken;
+    if(!token && Mobiletoken) token = Mobiletoken;
     // checking if the token is right
     const decode = jwt.verify(token,process.env.JWT_SECRET);
     if(!decode) return res.status(401).json({ message:"Unauthorized - Invalid token"});
@@ -22,7 +22,5 @@ export const protectRoute = async (req ,res , next) => {
         res.status(500).json({message: 'Server Error',err});
         console.log(err);
     }
-
-
 
 }
