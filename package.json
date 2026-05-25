@@ -7,6 +7,7 @@
   },
   "scripts": {
     "build": "npm install --prefix backend && npm install --prefix frontend --production=false && npm run build --prefix frontend",
+    "start": "npm run start --prefix backend",
     "dev": "npm run dev --prefix backend & npm start --prefix frontend"
   },
   "keywords": [],
