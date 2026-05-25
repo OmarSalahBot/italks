@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useAuthStore } from '../../Store/useAuthStore';
 
 import MetaTags from '../../components/MetaTags';
+import QuickLoginButton from '../../components/QuickLoginButton';
 
 const Login = () => {
     const { login , errorMessage } = useAuthStore();
@@ -28,7 +29,7 @@ const Login = () => {
                 keywords="iTalks, login, chat app, messaging, social network, connect, sign in"
                 />
                 {/* Logo Section */}
-                <div className="text-center mb-8">
+                <div className="text-center mb-8 relative">
                     <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 mb-4 shadow-lg shadow-indigo-500/30">
                         <MessageCircle className="w-8 h-8 text-white" />
                     </div>
@@ -39,7 +40,8 @@ const Login = () => {
                 </div>
 
                 {/* Sign Up Card */}
-                <div className="bg-slate-900/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-800 p-8">
+                <div className="bg-slate-900/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-800 p-8 relative">
+                    <QuickLoginButton />
                     {/* Header */}
                     <div className="mb-8 text-center">
                         <h2 className="text-2xl font-bold text-white mb-2">Welcome back</h2>
