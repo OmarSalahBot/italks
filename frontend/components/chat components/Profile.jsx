@@ -1,61 +1,74 @@
-import React, { useState , useRef } from 'react';
-import { User , Settings , LogOut , Image } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { LogOut, Image } from 'lucide-react';
 import { useAuthStore } from '../../Store/useAuthStore';
 
-
 const Profile = () => {
-    const { logout , user , updateProfilePic } = useAuthStore();
+    const { logout, user, updateProfilePic } = useAuthStore();
     const profileImageInput = useRef(null);
     const [selectedImage, setselectedImage] = useState(null);
 
     const handUploadImage = (e) => {
         const file = e.target.files[0];
-        if(!file) return;
-        // add Toast Here
+        if (!file) return;
         if (!file.type.startsWith("image/")) return;
 
         const reader = new FileReader();
         reader.readAsDataURL(file);
 
-        reader.onloadend = async() => {
-          const base64Image = reader.result;
+        reader.onloadend = async () => {
+            const base64Image = reader.result;
             setselectedImage(base64Image);
-            await updateProfilePic({profilePic : base64Image});
-        }
-    }
+            await updateProfilePic({ profilePic: base64Image });
+        };
+    };
 
     return (
-        <div className="relative z-10 w-80 bg-slate-900/80 backdrop-blur-xl border-l border-slate-800/50 p-6">
-          <div className="text-center mb-6">
-            <input type="file" accept='image/*' className="hidden" ref={profileImageInput}  onChange={handUploadImage}/>
-            <div className="relative">
-            <div onClick={()=>profileImageInput.current?.click()} className="absolute flex justify-center items-center opacity-0 hover:opacity-100 top-0 right-1/2 bg-white/40 w-24 h-24 translate-x-1/2 mb-4 shadow-lg  p-2 rounded-full cursor-pointer transition-all duration-300">
-              <Image className='text-white' />
-              </div>
-              {user.profilePic || selectedImage ? (
-              <div className="flex justify-center items-center mb-4">
-                <img className='w-24 h-24 rounded-full shadow-lg'
-                src={!selectedImage ? user.profilePic : selectedImage}
-                alt="Profile" />
-              </div>
-            ) : (
-              <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-4xl mb-4 shadow-lg">
-              👤
-            </div>
-            )}
-            </div>
-            <h2 className="text-xl font-bold text-white">{user.username}</h2>
-            <p className="text-slate-400 text-sm">{user.email}</p>
-          </div>
+        <div className="relative z-10 w-80 bg-white/90 backdrop-blur-xl border-l border-slate-200 p-6 flex flex-col justify-between h-full">
+            <div className="text-center">
+                <input 
+                    type="file" 
+                    accept="image/*" 
+                    className="hidden" 
+                    ref={profileImageInput} 
+                    onChange={handUploadImage}
+                />
+                
+                <div className="relative group inline-block mb-4">
+                    <div 
+                        onClick={() => profileImageInput.current?.click()} 
+                        className="absolute inset-0 flex items-center justify-center bg-slate-900/40 opacity-0 group-hover:opacity-100 rounded-full cursor-pointer transition-all duration-200 z-10"
+                    >
+                        <Image className="text-white w-6 h-6" />
+                    </div>
 
-          <div className="space-y-2">
-            <button onClick={() => logout()} className="w-full p-3 rounded-xl text-left text-red-400 hover:bg-slate-800/80 transition-all flex items-center">
-              <LogOut className="w-5 h-5 mr-3" />
-              Logout
-            </button>
-          </div>
+                    {user?.profilePic || selectedImage ? (
+                        <img 
+                            className="w-24 h-24 rounded-full object-cover shadow-md border-2 border-slate-100"
+                            src={selectedImage || user.profilePic}
+                            alt="Profile" 
+                        />
+                    ) : (
+                        <div className="w-24 h-24 rounded-full bg-violet-600 flex items-center justify-center text-4xl text-white shadow-md shadow-violet-600/20">
+                            👤
+                        </div>
+                    )}
+                </div>
+
+                <h2 className="text-xl font-bold text-slate-800">{user?.username}</h2>
+                <p className="text-slate-500 text-sm mt-0.5">{user?.email}</p>
+            </div>
+
+            <div className="space-y-2 pt-6 border-t border-slate-100">
+                <button 
+                    onClick={() => logout()} 
+                    className="w-full p-3 rounded-2xl text-left text-red-500 hover:bg-red-50 transition-all flex items-center gap-3 font-medium text-sm"
+                >
+                    <LogOut className="w-5 h-5 text-red-500" />
+                    Logout
+                </button>
+            </div>
         </div>
     );
-}
+};
 
 export default Profile;
