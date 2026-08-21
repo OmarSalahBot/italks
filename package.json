@@ -8,7 +8,6 @@
   "scripts": {
     "build": "npm i --prefix backend && npm i --prefix frontend && npm run build --prefix frontend ",
     "start": "npm run start --prefix backend",
-    "dev": "npm run dev --prefix backend & npm start --prefix frontend"
   },
   "keywords": [],
   "author": "",
