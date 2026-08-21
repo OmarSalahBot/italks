@@ -9,17 +9,22 @@ font-family: "Roboto", sans-serif;
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155; 
-  border-radius: 10px;
+  background: #cbd5e1; /* slate-300 */
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8; /* slate-400 */
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: transparent;
 }
+
 
 .input-lable {
     @apply block text-lg text-slate-300 mb-2 font-bold;
